@@ -50,7 +50,6 @@ ExportedObj/
 
 # Unity3D generated file on crash reports
 sysinfo.txt
-EditorUserSettings.asset
 # Builds
 *.apk
 *.unitypackage
