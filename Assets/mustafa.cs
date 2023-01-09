@@ -14,5 +14,6 @@ public class mustafa : MonoBehaviour
     void Update()
     {
         Debug.Log("hello world");
+        Debug.Log("deneme");
     }
 }
