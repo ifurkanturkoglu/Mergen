@@ -65,6 +65,9 @@ public class PController : MonoBehaviour
         Vector3 rotOfSet = mainCamera.transform.TransformDirection(StickDirection);
         rotOfSet.y = 0;
 
-        Model.forward = Vector3.Slerp(Model.forward, rotOfSet, Time.deltaTime * rotationSpeed);
+        if (StickDirection != Vector3.zero)
+        {
+            Model.forward = Vector3.Slerp(Model.forward, rotOfSet, Time.deltaTime * rotationSpeed);
+        }
     }
 }
