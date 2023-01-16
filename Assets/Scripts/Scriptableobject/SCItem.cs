@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class SCItem : ScriptableObject
 {
-    [SerializeField] private string itemName;
-    [SerializeField] private bool canStackable;
-    [SerializeField] Sprite itemIcon;
-    [SerializeField] GameObject itemPrefab;
+    public string itemName;
+    public bool canStackable;
+    public Sprite itemIcon;
+    public GameObject itemPrefab;
 
 
 }
