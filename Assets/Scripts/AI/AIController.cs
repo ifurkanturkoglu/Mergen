@@ -25,7 +25,7 @@ public class AIController : MonoBehaviour
     void AttackType(){
 
         if(distance >= 10){
-            agent.isStopped = true;
+            // agent.isStopped = true;
         }
         if(distance > 15 && distance <= 20){
             Skills.Instance.Fireball(true);
@@ -34,8 +34,8 @@ public class AIController : MonoBehaviour
             Skills.Instance.Flame(false);
         }
         else if (distance <10){
-            agent.SetDestination(target.position);
-            agent.isStopped = false;
+            // agent.SetDestination(target.position);
+            // agent.isStopped = false;
         }
         Skills.Instance.Jump();
     }

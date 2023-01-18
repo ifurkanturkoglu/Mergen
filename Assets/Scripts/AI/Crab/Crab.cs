@@ -2,74 +2,103 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-public class Crab : MonoBehaviour
+public class Crab : Enemy
 {
-    int health = 2000;
-    float stamina = 100;
+    public static Crab Instance;
     float distance;
-    //RUSH SİSTEMİNE BAKILACAK.
+    public bool isAwake;
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Transform player;
-    [SerializeField] Animator animator;
-    string[] attackTypes = {"Attack_1","Attack_2","Attack_3","Attack_4","Attack_5"};
-    bool isMove,isAttack;
-    float isAttackTime,isMoveTime;
+    public Animator animator;
+    string[] attackTypes = { "Attack_1", "Attack_2", "Attack_3", "Attack_4", "Attack_5" };
+    string [] takeDamageTypes = { "Take_Damage_1", "Take_Damage_2","Take_Damage_3"};
+    bool isMove, isAttack, isRush;
+    float isAttackTime, isMoveTime,isTakeDamage;
+ 
+    void Awake()
+    {
+        Instance = this;
+    }
     void Start()
     {
-        InvokeRepeating(nameof(MoveTime),0,1);
+        InvokeRepeating(nameof(MoveTime), 0, 1f);
+        animator.SetTrigger("Sleep");
     }
-
-    
     void Update()
     {
         distance = Mathf.Abs(Vector3.Distance(player.transform.position, transform.position));
 
-        if(distance >=30){
-            
-            Rush();
-        }
-        else if(distance >= 8.5f){
-            Move();
-            isMove = true;
-            isAttack = false;
-        }
-        else if(distance <= 8){
-            Attack();
-            isAttack = true;
-            isMove = false;
+        if (isAwake)
+        {
+            if (distance >= 30 || isRush)
+            {
+                Rush();
+                isRush = true;
+                print("if");
+            }
+            else if (distance >= 8.5f && !isRush)
+            {
+                Move();
+                isMove = true;
+                isAttack = false;
+                print("else if");
+            }
+
+            if (distance <= 8)
+            {
+                Attack();
+                isAttack = true;
+                isMove = false;
+                isRush = false;
+                print("else if2");
+            }
         }
     }
-    void Rush(){
+    void Rush()
+    {
         agent.SetDestination(player.position);
     }
-    void Move(){
-        if(isMove){
+    public override void Move()
+    {
+        if (isMove)
+        {
             agent.SetDestination(player.position);
             MoveAnim();
         }
     }
-    void MoveAnim(){
-        if(!animator.GetCurrentAnimatorStateInfo(0).IsName("Armature|Attack_2") && isMoveTime ==1){
-            animator.SetTrigger("Walk_Cycle_2");    
+    void MoveAnim()
+    {
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Armature|Attack_2") && isMoveTime == 1)
+        {
+            animator.SetTrigger("Walk_Cycle_2");
             isMoveTime = 0;
         }
     }
-    void MoveTime(){
-        if(distance >= 30f){
-            agent.speed = 15;
-            animator.SetTrigger("Walk_Cycle_1");
+    void MoveTime()
+    {
+        if (isAwake)
+        {
+            if (distance >= 30f)
+            {
+                agent.speed = 15;
+                animator.SetTrigger("Walk_Cycle_1");
+            }
+
+            else
+            {
+                agent.speed = 3.5f;
+                isMoveTime = 1;
+            }
         }
-            
-        else{
-            agent.speed = 3.5f;
-            isMoveTime = 1;
-        }    
+
     }
-    void Attack(){
+    void Attack()
+    {
         Vector3 direction = (player.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime*3);
-        if(isAttackTime ==0 && isAttack){
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime);
+        if (isAttackTime == 0 && isAttack)
+        {
             agent.isStopped = false;
             StartCoroutine(nameof(AttackTime));
         }
@@ -77,9 +106,15 @@ public class Crab : MonoBehaviour
     IEnumerator AttackTime()
     {
         isAttackTime++;
-        int random = Random.Range(0,5);
+        int random = Random.Range(0, attackTypes.Length);
         animator.SetTrigger(attackTypes[random]);
         yield return new WaitForSeconds(1.5f);
         isAttackTime = 0;
+    }
+
+    public override void TakeDamage(){
+        //health -= damage;
+        int random = Random.Range(0,takeDamageTypes.Length);
+        animator.SetTrigger(takeDamageTypes[random]);
     }
 }
