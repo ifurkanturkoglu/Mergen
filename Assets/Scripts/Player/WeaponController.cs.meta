@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/Scriptableobject/Inventory.cs.meta
+guid: 8d48e0019ec38dc4b81072528b8c2bb6
+========
+guid: c88509519ab232940b086739f3a861a1
+>>>>>>>> 4ebd0f1 (Strafe Movement):Assets/Scripts/Player/WeaponController.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
