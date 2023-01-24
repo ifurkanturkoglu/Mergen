@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3933516108819491812}
   - component: {fileID: 3933516108819491817}
   - component: {fileID: 3933516108819491816}
+  - component: {fileID: 931178441}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -103,6 +104,20 @@ MonoBehaviour:
   Model: {fileID: 3933516108819491813}
   SprintButton: 304
   WalkButton: 99
+  movementType: 0
+  Anim: {fileID: 0}
+--- !u!114 &931178441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3933516108819491810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c88509519ab232940b086739f3a861a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3933516108755492372
 PrefabInstance:
   m_ObjectHideFlags: 0

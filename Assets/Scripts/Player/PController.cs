@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 public class PController : MonoBehaviour
 {
@@ -8,18 +9,33 @@ public class PController : MonoBehaviour
     float inputX;
     float inputY;
     float maxSpeed;
-    float speedFactor = 1;
-
+    float speedFactor = 1f;
+    float StrafeTurnSpeed = 6f;
 
     public Transform Model;
 
-
     Vector3 StickDirection;
-    Animator Anim;
     Camera mainCamera;
 
     [SerializeField] KeyCode SprintButton;
     [SerializeField] KeyCode WalkButton;
+    Vector2 input;
+
+    public enum MovementType
+    {
+        Directional,
+        Strafe
+    };
+    public MovementType movementType;
+
+    [HideInInspector] public Animator Anim;
+
+
+    public static PController Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Start()
     {
@@ -30,8 +46,7 @@ public class PController : MonoBehaviour
     private void LateUpdate()
     {
         Movement();
-        InputMove(maxSpeed);
-        InputRotation();
+        DirectionalRotation();
     }
 
     private void Movement()
@@ -44,14 +59,33 @@ public class PController : MonoBehaviour
         {
             speedFactor = 0.4f;
         }
-        else
+
+        switch (movementType)
         {
-            speedFactor = 1f;
+            case MovementType.Directional:
+
+                DirectionalMovement();
+                break;
+
+            case MovementType.Strafe:
+                StrafeMovement();
+                break;
         }
-        InputMove(speedFactor);
     }
 
-    void InputMove(float speedFactor)
+    private void StrafeMovement()
+    {
+        input.x = speedFactor * Input.GetAxis("Horizontal");
+        input.y = speedFactor * Input.GetAxis("Vertical");
+
+        Anim.SetFloat("InputX", input.x);
+        Anim.SetFloat("InputY", input.y);
+
+        float yawCamera = mainCamera.transform.rotation.eulerAngles.y;
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, yawCamera, 0), StrafeTurnSpeed * Time.fixedDeltaTime);
+        Anim.SetBool("StrafeMoving", input.x != 0 || input.y != 0);
+    }
+    void DirectionalMovement()
     {
         inputX = speedFactor * Input.GetAxis("Horizontal");
         inputY = speedFactor * Input.GetAxis("Vertical");
@@ -60,7 +94,7 @@ public class PController : MonoBehaviour
         Anim.SetFloat("speed", Vector3.ClampMagnitude(StickDirection, maxSpeed).magnitude, damp, Time.deltaTime * 10);
     }
 
-    void InputRotation()
+    void DirectionalRotation()
     {
         Vector3 rotOfSet = mainCamera.transform.TransformDirection(StickDirection);
         rotOfSet.y = 0;

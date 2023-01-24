@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: 70686ea200566814b9a1a5d4aa9228c2
+<<<<<<<< HEAD:Assets/Scripts/Scriptableobject/Inventory.cs.meta
+guid: 95e490fb107b4a8498becaeae39f5760
+========
+guid: c88509519ab232940b086739f3a861a1
+>>>>>>>> 4ebd0f1 (Strafe Movement):Assets/Scripts/Player/WeaponController.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
