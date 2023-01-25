@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 public class PController : MonoBehaviour
 {
@@ -46,7 +46,6 @@ public class PController : MonoBehaviour
     private void LateUpdate()
     {
         Movement();
-        DirectionalRotation();
     }
 
     private void Movement()
@@ -63,8 +62,8 @@ public class PController : MonoBehaviour
         switch (movementType)
         {
             case MovementType.Directional:
-
                 DirectionalMovement();
+                DirectionalRotation();
                 break;
 
             case MovementType.Strafe:
@@ -75,6 +74,7 @@ public class PController : MonoBehaviour
 
     private void StrafeMovement()
     {
+        // karakter neye göre dönüş gidiş ayarlıyor?
         input.x = speedFactor * Input.GetAxis("Horizontal");
         input.y = speedFactor * Input.GetAxis("Vertical");
 
@@ -93,7 +93,6 @@ public class PController : MonoBehaviour
         maxSpeed = speedFactor;
         Anim.SetFloat("speed", Vector3.ClampMagnitude(StickDirection, maxSpeed).magnitude, damp, Time.deltaTime * 10);
     }
-
     void DirectionalRotation()
     {
         Vector3 rotOfSet = mainCamera.transform.TransformDirection(StickDirection);
