@@ -27,21 +27,19 @@ public class Crab : Enemy
     void Update()
     {
         distance = Mathf.Abs(Vector3.Distance(player.transform.position, transform.position));
-
+        
         if (isAwake)
         {
             if (distance >= 30 || isRush)
             {
                 Rush();
                 isRush = true;
-                print("if");
             }
             else if (distance >= 8.5f && !isRush)
             {
                 Move();
                 isMove = true;
                 isAttack = false;
-                print("else if");
             }
 
             if (distance <= 8)
@@ -50,10 +48,18 @@ public class Crab : Enemy
                 isAttack = true;
                 isMove = false;
                 isRush = false;
-                print("else if2");
             }
         }
     }
+
+    void OnCollisionEnter(Collision other)
+    {
+        if(other.transform.name.Equals("Player")){
+            StartCoroutine(AddForcePlayer());
+        }
+    }
+ 
+
     void Rush()
     {
         agent.SetDestination(player.position);
@@ -116,5 +122,18 @@ public class Crab : Enemy
         //health -= damage;
         int random = Random.Range(0,takeDamageTypes.Length);
         animator.SetTrigger(takeDamageTypes[random]);
+    }
+    IEnumerator AddForcePlayer(){
+        float count = 0;
+        Vector3 force;
+        while(count < 1.6f){
+            count +=Time.deltaTime;
+            playerRb.AddForce(transform.forward*55555f*Time.deltaTime,ForceMode.Impulse);
+            force = count >.8f ? Vector3.up*-555f: Vector3.up*555f;
+            playerRb.AddForce(force*Time.deltaTime,ForceMode.Impulse);
+
+            yield return null;
+        }
+        
     }
 }
