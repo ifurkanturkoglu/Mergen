@@ -74,7 +74,6 @@ public class PController : MonoBehaviour
 
     private void StrafeMovement()
     {
-        // karakter neye göre dönüş gidiş ayarlıyor?
         input.x = speedFactor * Input.GetAxis("Horizontal");
         input.y = speedFactor * Input.GetAxis("Vertical");
 
