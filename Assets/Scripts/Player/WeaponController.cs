@@ -6,6 +6,9 @@ public class WeaponController : MonoBehaviour
 {
     bool isStrafe = false;
 
+    [SerializeField] GameObject handWeapon;
+    [SerializeField] GameObject backWeapon;
+
     private void Update()
     {
         HandleInput();
@@ -32,5 +35,16 @@ public class WeaponController : MonoBehaviour
         {
             isStrafe = !isStrafe;
         }
+    }
+
+    void Equip()
+    {
+        backWeapon.SetActive(false);
+        handWeapon.SetActive(true);
+    }
+    void Unequip()
+    {
+        backWeapon.SetActive(true);
+        handWeapon.SetActive(false);
     }
 }
