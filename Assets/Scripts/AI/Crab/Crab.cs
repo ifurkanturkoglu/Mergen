@@ -10,7 +10,7 @@ public class Crab : Enemy
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Transform player;
     public Animator animator;
-    string[] attackTypes = { "Attack_1", "Attack_2", "Attack_3", "Attack_4", "Attack_5" };
+    string[] attackTypes = {"Attack_1","Attack_2","Attack_3","Attack_4","Attack_5"};
     string [] takeDamageTypes = { "Take_Damage_1", "Take_Damage_2","Take_Damage_3"};
     bool isMove, isAttack, isRush;
     float isAttackTime, isMoveTime,isTakeDamage;
@@ -56,6 +56,7 @@ public class Crab : Enemy
     {
         if(other.transform.name.Equals("Player")){
             StartCoroutine(AddForcePlayer());
+            print("girdi");
         }
     }
  
@@ -121,7 +122,7 @@ public class Crab : Enemy
     public override void TakeDamage(){
         //health -= damage;
         int random = Random.Range(0,takeDamageTypes.Length);
-        animator.SetTrigger(takeDamageTypes[random]);
+        animator.SetTrigger(takeDamageTypes[0]);
     }
     IEnumerator AddForcePlayer(){
         float count = 0;
