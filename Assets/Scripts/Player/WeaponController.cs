@@ -5,7 +5,6 @@ using UnityEngine;
 public class WeaponController : MonoBehaviour
 {
     bool isStrafe = false;
-
     [SerializeField] GameObject handWeapon;
     [SerializeField] GameObject backWeapon;
 
@@ -19,6 +18,7 @@ public class WeaponController : MonoBehaviour
     {
         PController.Instance.Anim.SetBool("IsStrafe", isStrafe);
 
+
         if (isStrafe == true)
         {
             GetComponent<PController>().movementType = PController.MovementType.Strafe;
@@ -31,9 +31,15 @@ public class WeaponController : MonoBehaviour
 
     private void HandleInput()
     {
+
         if (Input.GetKeyDown(KeyCode.F))
         {
             isStrafe = !isStrafe;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Mouse0) && isStrafe == true)
+        {
+            PController.Instance.Anim.SetTrigger("Attack");
         }
     }
 
