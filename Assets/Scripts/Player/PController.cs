@@ -95,7 +95,6 @@ public class PController : MonoBehaviour
     void DirectionalRotation()
     {
         Vector3 rotOfSet = mainCamera.transform.TransformDirection(StickDirection);
-        print(StickDirection);
         rotOfSet.y = 0;
 
         if (StickDirection != Vector3.zero)
