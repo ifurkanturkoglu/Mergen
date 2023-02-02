@@ -8,8 +8,7 @@ public abstract class Enemy : MonoBehaviour
     public abstract void Move();
     public abstract void TakeDamage();
     [SerializeField]protected Rigidbody playerRb;
-    protected int health;
-    float stamina ;
+    public abstract int health{get;set;}
     
    
 }

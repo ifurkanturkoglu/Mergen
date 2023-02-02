@@ -7,6 +7,7 @@ public class Crab : Enemy
     public static Crab Instance;
     float distance;
     public bool isAwake;
+    public override int health{get; set;}
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Transform player;
     public Animator animator;
