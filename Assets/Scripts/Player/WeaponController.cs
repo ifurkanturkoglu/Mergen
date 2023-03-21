@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
-    bool isStrafe = false;
+    public bool isStrafe,isAttack = false;
     [SerializeField] GameObject handWeapon;
     [SerializeField] GameObject backWeapon;
 
@@ -12,6 +12,7 @@ public class WeaponController : MonoBehaviour
     {
         HandleInput();
         HandleStrafe();
+        isAttack =  PController.Instance.Anim.GetCurrentAnimatorStateInfo(2).IsTag("attack") ? true : false;
     }
 
     private void HandleStrafe()
@@ -25,6 +26,7 @@ public class WeaponController : MonoBehaviour
         }
         if (isStrafe == false)
         {
+
             GetComponent<PController>().movementType = PController.MovementType.Directional;
         }
     }
@@ -41,6 +43,7 @@ public class WeaponController : MonoBehaviour
         {
             PController.Instance.Anim.SetTrigger("Attack");
         }
+
     }
 
     void Equip()

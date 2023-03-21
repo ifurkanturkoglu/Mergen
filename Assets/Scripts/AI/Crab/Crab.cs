@@ -4,18 +4,21 @@ using UnityEngine;
 using UnityEngine.AI;
 public class Crab : Enemy
 {
+    
     public static Crab Instance;
     float distance;
     public bool isAwake;
-    public override int health{get; set;}
+    public override int health { get; set; }
+    [SerializeField] WeaponController weaponController;
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Transform player;
+    [SerializeField] Material crabColor;
     public Animator animator;
-    string[] attackTypes = {"Attack_1","Attack_2","Attack_3","Attack_4","Attack_5"};
-    string [] takeDamageTypes = { "Take_Damage_1", "Take_Damage_2","Take_Damage_3"};
+    string[] attackTypes = { "Attack_1", "Attack_2", "Attack_3", "Attack_4", "Attack_5" };
+    string[] takeDamageTypes = { "Take_Damage_1", "Take_Damage_2", "Take_Damage_3" };
     bool isMove, isAttack, isRush;
-    float isAttackTime, isMoveTime,isTakeDamage;
- 
+    float isAttackTime, isMoveTime, isTakeDamage;
+    string attackingType;
     void Awake()
     {
         Instance = this;
@@ -28,7 +31,7 @@ public class Crab : Enemy
     void Update()
     {
         distance = Mathf.Abs(Vector3.Distance(player.transform.position, transform.position));
-        
+
         if (isAwake)
         {
             if (distance >= 30 || isRush)
@@ -55,12 +58,16 @@ public class Crab : Enemy
 
     void OnCollisionEnter(Collision other)
     {
-        if(other.transform.name.Equals("Player")){
+        if (other.transform.name.Equals("Player"))
+        {
             StartCoroutine(AddForcePlayer());
-            print("girdi");
+        }
+        if (other.gameObject.name.Equals("LongSword"))
+        {
+            TakeDamage();
         }
     }
- 
+
 
     void Rush()
     {
@@ -104,7 +111,7 @@ public class Crab : Enemy
     {
         Vector3 direction = (player.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime/2);
         if (isAttackTime == 0 && isAttack)
         {
             agent.isStopped = false;
@@ -116,26 +123,44 @@ public class Crab : Enemy
         isAttackTime++;
         int random = Random.Range(0, attackTypes.Length);
         animator.SetTrigger(attackTypes[random]);
-        yield return new WaitForSeconds(1.5f);
+        attackingType = attackTypes[random];
+        yield return new WaitForSeconds(3f);
         isAttackTime = 0;
     }
 
-    public override void TakeDamage(){
-        //health -= damage;
-        int random = Random.Range(0,takeDamageTypes.Length);
+    IEnumerator TakeDamageTime()
+    {
+        isTakeDamage = 1;
+        health -= 20;
+        crabColor.color = Color.red;
+        int random = Random.Range(0, takeDamageTypes.Length);
         animator.SetTrigger(takeDamageTypes[0]);
+        yield return new WaitForSeconds(1);
+        isTakeDamage= 0;
+        crabColor.color = Color.white;
     }
-    IEnumerator AddForcePlayer(){
+    public override void TakeDamage()
+    {
+        if (isTakeDamage == 0 && weaponController.isAttack)
+        {
+            StartCoroutine(TakeDamageTime());
+        }
+
+    }
+    IEnumerator AddForcePlayer()
+    {
         float count = 0;
         Vector3 force;
-        while(count < 1.6f){
-            count +=Time.deltaTime;
-            playerRb.AddForce(transform.forward*55555f*Time.deltaTime,ForceMode.Impulse);
-            force = count >.8f ? Vector3.up*-555f: Vector3.up*555f;
-            playerRb.AddForce(force*Time.deltaTime,ForceMode.Impulse);
+        while (count < 1.6f && attackingType.Equals("Attack_1"))
+        {
+
+            count += Time.deltaTime;
+            playerRb.AddForce(transform.forward * 55555f * Time.deltaTime, ForceMode.Impulse);
+            force = count > .8f ? Vector3.up * -555f : Vector3.up * 555f;
+            playerRb.AddForce(force * Time.deltaTime, ForceMode.Impulse);
 
             yield return null;
         }
-        
+
     }
 }

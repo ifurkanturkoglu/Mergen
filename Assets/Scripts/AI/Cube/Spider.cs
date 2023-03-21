@@ -52,7 +52,6 @@ public class Spider : MonoBehaviour
             target1.position += Vector3.forward * .5f * Time.fixedDeltaTime;
             leftLeg = false;
             rightLeg = true;
-            print("a");
             yield return null;
             // 
             
@@ -73,7 +72,6 @@ public class Spider : MonoBehaviour
         count =0;
         while(count <= 1)
         {
-            print("b");
             count +=Time.fixedDeltaTime;
             rightLeg = false;
             leftLeg = true;
