@@ -39,6 +39,7 @@ public class PController : MonoBehaviour
 
     private void Start()
     {
+        print("Deneme");
         Anim = GetComponent<Animator>();
         mainCamera = Camera.main;
     }
