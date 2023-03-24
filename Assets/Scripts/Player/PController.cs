@@ -75,15 +75,16 @@ public class PController : MonoBehaviour
 
     private void StrafeMovement()
     {
-        input.x = speedFactor * Input.GetAxis("Horizontal");
-        input.y = speedFactor * Input.GetAxis("Vertical");
-
+        input.x = Input.GetAxis("Horizontal");
+        input.y = Input.GetAxis("Vertical");
         Anim.SetFloat("InputX", input.x);
         Anim.SetFloat("InputY", input.y);
 
+        Vector3 strafeMovement = new Vector3(input.x, 0, input.y);
         float yawCamera = mainCamera.transform.rotation.eulerAngles.y;
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, yawCamera, 0), StrafeTurnSpeed * Time.fixedDeltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, yawCamera, 0), StrafeTurnSpeed * Time.deltaTime);
         Anim.SetBool("StrafeMoving", input.x != 0 || input.y != 0);
+        Anim.SetFloat("speed", Vector3.ClampMagnitude(strafeMovement, 1).magnitude);
     }
     void DirectionalMovement()
     {
