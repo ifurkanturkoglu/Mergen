@@ -19,8 +19,9 @@ public class PController : MonoBehaviour
 
     [SerializeField] KeyCode SprintButton;
     [SerializeField] KeyCode WalkButton;
+    [SerializeField] float jumpForce;
     Vector2 input;
-
+    Rigidbody playerRb;
     public enum MovementType
     {
         Directional,
@@ -39,7 +40,7 @@ public class PController : MonoBehaviour
 
     private void Start()
     {
-        print("Deneme");
+        playerRb = GetComponent<Rigidbody>();
         Anim = GetComponent<Animator>();
         mainCamera = Camera.main;
     }
@@ -59,7 +60,11 @@ public class PController : MonoBehaviour
         {
             speedFactor = 0.4f;
         }
-
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Anim.SetTrigger("Jump");
+            playerRb.AddForce(Vector3.up * jumpForce);
+        }
         switch (movementType)
         {
             case MovementType.Directional:
@@ -71,6 +76,7 @@ public class PController : MonoBehaviour
                 StrafeMovement();
                 break;
         }
+        
     }
 
     private void StrafeMovement()
