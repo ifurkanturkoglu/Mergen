@@ -2,37 +2,34 @@
 using UnityEngine;
 public class PController : MonoBehaviour
 {
-    public float damp;
-    [Range(1f, 20f)]
-    public float rotationSpeed;
-
+    float damp = 3f;
     float inputX;
     float inputY;
     float maxSpeed;
+    float rotationSpeed = 12f;
     float speedFactor = 1f;
-    float StrafeTurnSpeed = 6f;
 
     public Transform Model;
+    public static PController Instance;
 
-    Vector3 StickDirection;
     Camera mainCamera;
+    Rigidbody playerRb;
+    Vector2 input;
+    Vector3 StickDirection;
 
     [SerializeField] KeyCode SprintButton;
     [SerializeField] KeyCode WalkButton;
     [SerializeField] float jumpForce;
-    Vector2 input;
-    Rigidbody playerRb;
+    [SerializeField] float StrafeTurnSpeed = 6f;
+    [HideInInspector] public Animator Anim;
+
     public enum MovementType
     {
         Directional,
         Strafe
     };
-    public MovementType movementType;
+    [HideInInspector] public MovementType movementType;
 
-    [HideInInspector] public Animator Anim;
-
-
-    public static PController Instance;
     private void Awake()
     {
         Instance = this;
