@@ -5,8 +5,6 @@ using UnityEngine;
 public class WeaponController : MonoBehaviour
 {
     public bool isStrafe,isAttack = false;
-    [SerializeField] GameObject handWeapon;
-    [SerializeField] GameObject backWeapon;
 
     private void Update()
     {
@@ -44,16 +42,5 @@ public class WeaponController : MonoBehaviour
             PController.Instance.Anim.SetTrigger("Attack");
         }
 
-    }
-
-    void Equip()
-    {
-        backWeapon.SetActive(false);
-        handWeapon.SetActive(true);
-    }
-    void Unequip()
-    {
-        backWeapon.SetActive(true);
-        handWeapon.SetActive(false);
     }
 }
