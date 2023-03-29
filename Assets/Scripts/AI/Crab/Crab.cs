@@ -62,11 +62,9 @@ public class Crab : Enemy
         {
             StartCoroutine(AddForcePlayer());
         }
-        if (other.gameObject.name.Equals("LongSword"))
-        {
-            TakeDamage();
-        }
     }
+    
+  
 
 
     void Rush()
@@ -111,7 +109,7 @@ public class Crab : Enemy
     {
         Vector3 direction = (player.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime/2);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime/5);
         if (isAttackTime == 0 && isAttack)
         {
             agent.isStopped = false;
@@ -139,6 +137,7 @@ public class Crab : Enemy
         isTakeDamage= 0;
         crabColor.color = Color.white;
     }
+
     public override void TakeDamage()
     {
         if (isTakeDamage == 0 && weaponController.isAttack)
@@ -153,12 +152,10 @@ public class Crab : Enemy
         Vector3 force;
         while (count < 1.6f && attackingType.Equals("Attack_1"))
         {
-
             count += Time.deltaTime;
             playerRb.AddForce(transform.forward * 55555f * Time.deltaTime, ForceMode.Impulse);
             force = count > .8f ? Vector3.up * -555f : Vector3.up * 555f;
             playerRb.AddForce(force * Time.deltaTime, ForceMode.Impulse);
-
             yield return null;
         }
 

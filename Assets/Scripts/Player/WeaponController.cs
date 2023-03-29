@@ -10,7 +10,7 @@ public class WeaponController : MonoBehaviour
     {
         HandleInput();
         HandleStrafe();
-        isAttack =  PController.Instance.Anim.GetCurrentAnimatorStateInfo(2).IsTag("attack") ? true : false;
+        isAttack =  PController.Instance.Anim.GetCurrentAnimatorStateInfo(1).IsTag("attack") ? true : false;
     }
 
     private void HandleStrafe()
